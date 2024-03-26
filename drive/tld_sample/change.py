@@ -1,7 +1,8 @@
-import yaml
+from ruamel.yaml import YAML
 from pathlib import Path
 import glob
 
+yaml = YAML()
 data = {
     "train": [],
     "val": [],
@@ -30,10 +31,18 @@ if len(data['names']) != len(set(data['names'].values())):
 file_path = Path('.tld.yaml')
 
 # YAML 파일로 저장
-with file_path.open('w') as f:
-    yaml.dump(data, f, default_flow_style=False, sort_keys=False)
+try:
+    with file_path.open('w') as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False)
+except Exception as e:
+    print(f"파일 저장 중 오류 발생: {e}")
 
 # YAML 파일 읽기
-with file_path.open('r') as f:
-    loaded_data = yaml.safe_load(f)
-    print(loaded_data)
+try:
+    with file_path.open('r') as f:
+        loaded_data = yaml.load(f)
+        print(loaded_data)
+except FileNotFoundError:
+    print(f"파일을 찾을 수 없습니다: {file_path}")
+except Exception as e:
+    print(f"파일 로드 중 오류 발생: {e}")
