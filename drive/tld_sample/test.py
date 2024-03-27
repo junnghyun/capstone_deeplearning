@@ -21,7 +21,10 @@ try:
                 workers=8,  # 데이터 로딩을 위한 워커 수
                 project=checkpoint_dir, # 체크 포인트 저장 경로
                 name='yolov8_training', # 학습 세션 이름
-                exist_ok=True)  # 이전 학습 세션 덮어쓰기 허용
+                exist_ok=True,  # 이전 학습 세션 덮어쓰기 허용
+                learning_rate=0.001, # 학습률 설정
+                optimizer='adam',   # 옵타마이저 설정
+                augmentation=True)  # 데이터 증강 사용 여부
     torch.save(model.state_dict(), 'yolov8_model.pt')
     print("모델 학습 및 저장이 성공적으로 완료되었습니다.")
 except Exception as e:
