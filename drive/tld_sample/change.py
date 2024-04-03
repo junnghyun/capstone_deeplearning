@@ -19,8 +19,7 @@ for key in ['train', 'val', 'test']:
         raise ValueError(f"Directory does not exist: {dir_path}")
     
     # 해당 디렉토리의 모든 .txt 파일 읽기
-    text_files = glob.glob(str(dir_path / '*.txt'))
-    # text_files = list(dir_path.glob('*.txt')) + list(dir_path.glob('*.png'))
+    text_files = list(dir_path.glob('*.txt')) + list(dir_path.glob('*.jpg'))
     for filename in text_files:
         with open(filename, 'r', encoding='utf-8') as file:
             content = file.read()
