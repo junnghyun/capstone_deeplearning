@@ -8,7 +8,7 @@ from ultralytics import YOLO
 
 # 데이터베이스 연결 및 테이블 생성
 def init_db():
-    conn = psycopg2.connect(host="localhost", database="your_dbname", user="your_username", password="your_password")
+    conn = psycopg2.connect(host="localhost", port=5432, database="nsu_db", user="postgres", password="postgis")
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS detection_info
                       (id SERIAL PRIMARY KEY, image_file BYTEA, detected_objects JSON, rule_type TEXT, detected_count INTEGER, detection_date DATE, coordinates TEXT)''')
@@ -17,7 +17,7 @@ def init_db():
 
 # 탐지된 정보를 데이터베이스에 저장
 def insert_detection_info(image_name, detected_objects, rule_type, detected_count, detection_date, coordinates):
-    conn = psycopg2.connect(host="localhost", database="your_dbname", user="your_username", password="your_password")
+    conn = psycopg2.connect(host="localhost", port=5432 database="nsu_db", user="postgres", password="postgis")
     cursor = conn.cursor()
     with open(image_path, 'rb') as file:
         binary_image = file.read()
