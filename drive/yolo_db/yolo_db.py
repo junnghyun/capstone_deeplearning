@@ -17,7 +17,7 @@ def init_db():
 
 # 탐지된 정보를 데이터베이스에 저장
 def insert_detection_info(image_name, detected_objects, rule_type, detected_count, detection_date, coordinates):
-    conn = psycopg2.connect(host="localhost", port=5432 database="nsu_db", user="postgres", password="postgis")
+    conn = psycopg2.connect(host="localhost", port=5432, database="nsu_db", user="postgres", password="postgis")
     cursor = conn.cursor()
     with open(image_path, 'rb') as file:
         binary_image = file.read()
