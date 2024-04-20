@@ -30,6 +30,7 @@ def process_and_move_images():
 
         # 차량 탐지 여부 확인
         vehicle_detected = False
+        vehicle_boxes = []  # 탐지된 차량의 박스 좌표를 저장할 리스트
         for out in outs:
             for detection in out:
                 scores = detection[5:]
@@ -37,11 +38,28 @@ def process_and_move_images():
                 confidence = scores[class_id]
                 if class_id == 2 and confidence > 0.5:  # 차량 클래스 ID가 2라고 가정
                     vehicle_detected = True
-                    break
+                    # 탐지된 차량의 박스 좌표 저장
+                    center_x = int(detection[0] * img.shape[1])
+                    center_y = int(detection[1] * img.shape[0])
+                    w = int(detection[2] * img.shape[1])
+                    h = int(detection[3] * img.shape[0])
+                    x = int(center_x - w / 2)
+                    y = int(center_y - h / 2)
+                    vehicle_boxes.append((x, y, x + w, y + h))
 
         if vehicle_detected:
-            # 차량이 탐지된 경우: 차량 삭제 및 이미지 편집 로직 구현
-            pass  # 이미지 편집 로직 추가
+            # 차량이 탐지된 경우: 차량 삭제 및 이미지 편집
+            for box in vehicle_boxes:
+                x1, y1, x2, y2 = box
+                # 차량 박스 삭제
+                img[y1:y2, x1:x2] = 0  # 삭제된 부분을 검정색으로 채움
+
+                # 다른 이미지 로드 (예시)
+                other_image = cv2.imread('other_image.jpg')
+
+                # 삭제된 부분에 다른 이미지 삽입
+                img[y1:y2, x1:x2] = other_image[y1:y2, x1:x2]
+
         else:
             # 차량이 탐지되지 않은 경우: DB2로 이미지 이동
             cur_db2.execute("INSERT INTO db2_table (id, image_file, coordinates) VALUES (%s, %s, %s)",
