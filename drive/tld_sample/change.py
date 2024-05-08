@@ -27,7 +27,6 @@ for key in ['train', 'val', 'test']:
 
 if len(data['names']) != len(set(data['names'].values())):
     raise ValueError("Duplicate entries found in 'names'")
-
 file_path = Path('.tld.yaml')
 
 # YAML 파일로 저장
