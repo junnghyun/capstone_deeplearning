@@ -16,7 +16,6 @@ try:
     model.train(data='./tld.yaml',
                 epochs=50,  # 에폭 수
                 batch_size=16,  # 배치 크기
-                imgsz=640,  # 이미지 크기
                 device='cuda',  # 학습에 사용할 디바이스 ('cuda' or "cpu")
                 workers=8,  # 데이터 로딩을 위한 워커 수
                 project=checkpoint_dir, # 체크 포인트 저장 경로
